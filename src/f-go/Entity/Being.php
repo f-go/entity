@@ -12,6 +12,9 @@ class Being
     /**
      * Date of birth.
      *
+     * <strong>Info:</strong>
+     * If this date is set, the age will be calculated dynamically based on this value.
+     *
      * @var null|\DateTime
      */
     protected $dateOfBirth = null;
@@ -19,7 +22,7 @@ class Being
     /**
      * The age.
      *
-     * This is an optional value. If the date of birth is set, the age will be calculated automatically.
+     * This is an optional value. If the date of birth is set, the age will be calculated dynamically.
      *
      * @var int
      */
@@ -35,7 +38,7 @@ class Being
     /**
      * Get the date of birth.
      *
-     * @return null|\DateTime Returns the date or <em>NULL</em> if it is not set.
+     * @return null|\DateTime Returns the date or <em>NULL</em> if it's not set.
      */
     public function getDateOfBirth()
     {
@@ -44,6 +47,9 @@ class Being
 
     /**
      * Set the date of birth.
+     *
+     * <strong>Info:</strong>
+     * If this date is set, the age will be calculated dynamically based on this value.
      *
      * @param  \DateTime $dateOfBirth The date to set.
      * @return $this Returns the instance of this or a derived class.
