@@ -10,21 +10,30 @@ namespace FGo\Entity;
 class Being
 {
     /**
-     * Date of birth of this being.
+     * Date of birth.
      *
      * @var null|\DateTime
      */
     protected $dateOfBirth = null;
 
     /**
-     * The sex of the being.
+     * The age.
+     *
+     * This is an optional value. If the date of birth is set, the age will be calculated automatically.
+     *
+     * @var int
+     */
+    protected $age = 0;
+
+    /**
+     * The sex.
      *
      * @var string
      */
     protected $sex = SexCategory::MALE;
 
     /**
-     * Get the date of birth of this being.
+     * Get the date of birth.
      *
      * @return null|\DateTime Returns the date or <em>NULL</em> if it is not set.
      */
@@ -34,7 +43,7 @@ class Being
     }
 
     /**
-     * Set the date of birth of this being.
+     * Set the date of birth.
      *
      * @param  \DateTime $dateOfBirth The date to set.
      * @return $this Returns the instance of this or a derived class.
@@ -45,7 +54,17 @@ class Being
     }
 
     /**
-     * Check if the date of birth of this being is set.
+     * Unset the date of birth.
+     *
+     * @return $this Returns the instance of this or a derived class.
+     */
+    public function unsetDateOfBirth()
+    {
+        $this->dateOfBirth = null;
+    }
+
+    /**
+     * Check if the date of birth is set.
      *
      * @return bool Returns <em>TRUE</em> if the date of birth is set or <em>FALSE</em> if not.
      */
@@ -55,21 +74,39 @@ class Being
     }
 
     /**
-     * Calculate the age of this being.
+     * Get the age.
+     *
+     * <strong>Note:</strong>
+     * This value is can be both, the static value you set with the method {@see Being::setAge()} or the calculated
+     * age if the date of birth is set. When the date of birth is set, this value is always calculated.
      *
      * @return int Returns the age of this being.
      */
     public function getAge()
     {
-        if (!$this->hasDateOfBirth()) {
-            throw new \RuntimeException('Could not calculate age of being. Date of birth is not set.');
+        if ($this->hasDateOfBirth()) {
+            return $this->dateOfBirth->diff(new \DateTime('now', $this->dateOfBirth->getTimezone()))->y;
         }
 
-        return $this->dateOfBirth->diff(new \DateTime('now', $this->dateOfBirth->getTimezone()))->y;
+        return $this->age;
     }
 
     /**
-     * Get the sex of the being.
+     * Set the age.
+     *
+     * <strong>Note:</strong>
+     * If the date of birth is set, the age will be calculated automatically
+     * and value you set with this method will be ignored.
+     *
+     * @param int $age
+     */
+    public function setAge($age)
+    {
+        $this->age = $age;
+    }
+
+    /**
+     * Get the sex.
      *
      * @return string Returns the sex.
      */
@@ -79,7 +116,7 @@ class Being
     }
 
     /**
-     * Set the sex of the being.
+     * Set the sex.
      *
      * @param string $sex The sex to set.
      * @return $this Returns the instance of this or a derived class.
