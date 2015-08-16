@@ -25,14 +25,14 @@ class Coordinate
      *
      * @var float
      */
-    private $longitude = 0.0;
+    protected $longitude = 0.0;
 
     /**
      * Latitude of the coordinate.
      *
      * @var float
      */
-    private $latitude = 0.0;
+    protected $latitude = 0.0;
 
 
 

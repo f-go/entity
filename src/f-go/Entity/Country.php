@@ -25,14 +25,14 @@ class Country
      *
      * @var string
      */
-    private $countryName = '';
+    protected $countryName = '';
 
     /**
      * The code of the country (e.g. DE, according to {@link http://en.wikipedia.org/wiki/ISO_3166 ISO 3166}).
      *
      * @var string
      */
-    private $countryCode = '';
+    protected $countryCode = '';
 
     /**
      * Code of the language in which this country is represented
@@ -47,7 +47,7 @@ class Country
      *
      * @var string
      */
-    private $languageCode = '';
+    protected $languageCode = '';
 
 
 
