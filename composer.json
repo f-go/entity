@@ -1,5 +1,5 @@
 {
-    "name": "f-go/entities",
+    "name": "f-go/entity",
     "type": "library",
     "description": "...",
     "require": {
@@ -9,6 +9,6 @@
         "phpunit/phpunit": "~4.0"
     },
     "autoload": {
-        "psr-0": { "": "src/" }
+        "psr-4": { "FGo\\Entity\\": "src/f-go/Entity/" }
     }
 }

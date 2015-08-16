@@ -1,14 +1,29 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tito
- * Date: 07.08.14
- * Time: 00:04
+/*
+ * This file is part of the entities project.
+ *
+ * Copyright (c) 2015 Frank Göldner <f-go@gmx.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
+
 namespace FGo\Entity;
 
 
-class SexCategory
+/**
+ * This class contains all supported sex categories.
+ *
+ * Possible values:
+ * ----------------
+ * - male
+ * - female
+ *
+ * @copyright 2015 Frank Göldner
+ * @author Frank Göldner <f-go@gmx.de>
+ * @package FGo\Entity
+ */
+abstract class SexCategory
 {
     /**
      * Definition of sex category unknown.
@@ -31,40 +46,43 @@ class SexCategory
      */
     const FEMALE = 'female';
 
+
+
     /**
-     * List of all known sex categories.
+     * List of all supported sex categories.
      *
      * @var array
      */
-    static protected $knownCategories = array(
+    static protected $supportedCategories = array(
         self::MALE,
         self::FEMALE
     );
 
     /**
-     * Get a list of all known sex categories.
+     * Get a list of all supported sex categories.
      *
-     * @return array
+     * @return string[]
      */
-    static public function getKnownCategories()
+    static public function getSupportedCategories()
     {
-        return self::$knownCategories;
+        return self::$supportedCategories;
     }
 
     /**
-     * Check if the given category is one of the known.
+     * Check if the given category is one of the supported.
      *
      * @param  string $category The category to check.
-     * @return bool Returns <em>TRUE</em> if the category is known or <em>FALSE</em> if not.
+     * @return bool Returns *TRUE* if the category is supported or *FALSE* if not.
      */
-    static public function isKnownCategory($category)
+    static public function isSupportedCategory($category)
     {
-        foreach (self::$knownCategories as $knownCategory) {
-            if ($category === $knownCategory) {
+        $category = strtolower(trim($category));
+        foreach (self::$supportedCategories as $supportedCategory) {
+            if ($category === $supportedCategory) {
                 return true;
             }
         }
 
         return false;
     }
-} 
+}

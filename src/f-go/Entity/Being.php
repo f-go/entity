@@ -1,32 +1,38 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tito
- * Date: 06.08.14
- * Time: 23:31
+/*
+ * This file is part of the entities project.
+ *
+ * Copyright (c) 2015 Frank Göldner <f-go@gmx.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
+
 namespace FGo\Entity;
 
-class Being
+
+/**
+ * This class represents an abstract being.
+ *
+ * @copyright 2015 Frank Göldner
+ * @author Frank Göldner <f-go@gmx.de>
+ * @package FGo\Entity
+ */
+abstract class Being
 {
     /**
      * Date of birth.
-     *
-     * <strong>Info:</strong>
-     * If this date is set, the age will be calculated dynamically based on this value.
      *
      * @var null|\DateTime
      */
     protected $dateOfBirth = null;
 
     /**
-     * The age.
+     * Date of death.
      *
-     * This is an optional value. If the date of birth is set, the age will be calculated dynamically.
-     *
-     * @var int
+     * @var null|\DateTime
      */
-    protected $age = 0;
+    protected $dateOfDeath = null;
 
     /**
      * The sex.
@@ -35,8 +41,10 @@ class Being
      */
     protected $sex = SexCategory::MALE;
 
+
+
     /**
-     * Get the date of birth.
+     * Gets the {@see $dateOfBirth date of birth}.
      *
      * @return null|\DateTime Returns the date or <em>NULL</em> if it's not set.
      */
@@ -46,10 +54,7 @@ class Being
     }
 
     /**
-     * Set the date of birth.
-     *
-     * <strong>Info:</strong>
-     * If this date is set, the age will be calculated dynamically based on this value.
+     * Sets the {@see $dateOfBirth date of birth}.
      *
      * @param  \DateTime $dateOfBirth The date to set.
      * @return $this Returns the instance of this or a derived class.
@@ -60,7 +65,7 @@ class Being
     }
 
     /**
-     * Unset the date of birth.
+     * Unsets the {@see $dateOfBirth date of birth}.
      *
      * @return $this Returns the instance of this or a derived class.
      */
@@ -70,7 +75,7 @@ class Being
     }
 
     /**
-     * Check if the date of birth is set.
+     * Checks whether the {@see $dateOfBirth date of birth} is set.
      *
      * @return bool Returns <em>TRUE</em> if the date of birth is set or <em>FALSE</em> if not.
      */
@@ -80,35 +85,64 @@ class Being
     }
 
     /**
-     * Get the age.
+     * Gets the {@see $dateOfDeath date of death}.
      *
-     * <strong>Note:</strong>
-     * This value is can be both, the static value you set with the method {@see Being::setAge()} or the calculated
-     * age if the date of birth is set. When the date of birth is set, this value is always calculated.
+     * @return null|\DateTime Returns the date or *NULL* if it's not set.
+     */
+    public function getDateOfDeath()
+    {
+        return $this->dateOfDeath;
+    }
+
+    /**
+     * Sets the {@see $dateOfDeath date of death}.
+     *
+     * @param  \DateTime $dateOfDeath The date to set.
+     * @return $this Returns the instance of this or a derived class.
+     */
+    public function setDateOfDeath(\DateTime $dateOfDeath)
+    {
+        $this->dateOfDeath = $dateOfDeath;
+    }
+
+    /**
+     * Unsets the {@see $dateOfDeath date of death}.
+     *
+     * @return $this Returns the instance of this or a derived class.
+     */
+    public function unsetDateOfDeath()
+    {
+        $this->dateOfDeath = null;
+    }
+
+    /**
+     * Checks whether the {@see $dateOfDeath date of death} is set.
+     *
+     * @return bool Returns *TRUE* if the date of death is set or *FALSE* if not.
+     */
+    public function hasDateOfDeath()
+    {
+        return ($this->dateOfDeath !== null);
+    }
+
+    /**
+     * Gets the age.
+     *
+     * @throws \RuntimeException This exception is thrown if the date of birth is not set.
      *
      * @return int Returns the age of this being.
      */
     public function getAge()
     {
-        if ($this->hasDateOfBirth()) {
-            return $this->dateOfBirth->diff(new \DateTime('now', $this->dateOfBirth->getTimezone()))->y;
+        if (!$this->hasDateOfBirth()) {
+            throw new \RuntimeException('Age could not be calculated. No date of birth is set.');
         }
 
-        return $this->age;
-    }
+        $dt = $this->hasDateOfDeath()
+            ? $this->getDateOfDeath()
+            : new \DateTime('now', $this->dateOfBirth->getTimezone());
 
-    /**
-     * Set the age.
-     *
-     * <strong>Note:</strong>
-     * If the date of birth is set, the age will be calculated automatically
-     * and value you set with this method will be ignored.
-     *
-     * @param int $age
-     */
-    public function setAge($age)
-    {
-        $this->age = $age;
+        return $this->dateOfBirth->diff($dt)->y;
     }
 
     /**
